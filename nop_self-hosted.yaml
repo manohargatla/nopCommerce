@@ -1,25 +1,24 @@
 pool:
-  name: Azure Pipelines
-  vmImage: ubuntu-22.04
+  name: Default
+  
 trigger:
   - master
+  
 stages:
   - stage: nopcommerce
     displayName: nop build stage
+
     jobs:
       - job: nopjob
         displayName: build nop package
         steps:
-          - task: DotNetCoreInstaller@1
-            inputs:
-              packageType: 'sdk'
-              version: '7.0.101'
+
           - task: DotNetCoreCLI@2
             inputs:
               command: build
               projects: '**/*.sln'
-              configuration: $(buildConfiguration) 
-
+              configuration: $(buildConfiguration)
+              
           - task: DotNetCoreCLI@2
             inputs:
               command: publish
@@ -32,7 +31,7 @@ stages:
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)' 
               artifactName: 'nopcommerce'
-
+              
           - task: DownloadBuildArtifacts@1
             displayName: Download Artifacts
             inputs:
