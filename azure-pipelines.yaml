@@ -31,3 +31,9 @@ stages:
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)' 
               artifactName: 'nopcommerce'
+              
+          - task: DownloadBuildArtifacts@1
+            displayName: Download Artifacts
+            inputs:
+              artifactName: 'nopcommerce'
+              downloadPath: $(System.DefaultWorkingDirectory)
