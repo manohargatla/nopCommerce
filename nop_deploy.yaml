@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nop_deploy
+  labels:
+    app: nop
+spec:
+  minReadySeconds: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nop
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      name: noppod
+      labels:
+        app: nop
+    spec:
+      containers:
+        - name: nopcommerce
+          image: manugatla/nopcommerce
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nop_svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: nop
+  ports:
+    - port: 5000
+      protocol: TCP
+      targetPort: 5000
